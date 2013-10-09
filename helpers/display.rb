@@ -1,11 +1,16 @@
 def display_message(message, spark, options={})
-  frames = encode_frames(message)
-  if options[:loop]
-    options[:loop].to_i.times do
+  begin
+    frames = encode_frames(message)
+    if options[:loop]
+      options[:loop].to_i.times do
+        display_frames(frames, spark)
+      end
+    else
       display_frames(frames, spark)
     end
-  else
-    display_frames(frames, spark)
+    "Message displayed successfully."
+  rescue
+    "There was an error displaying your message."
   end
 end
 
@@ -16,41 +21,69 @@ def display_frames(frames, spark)
   end
 end
 
-def encode_frames(message, final_message=[])
-  if message.length <= 16
-    final_message.push [message, " "]
+def split_words_sixteen(message)
+  if message[" "].nil?
+    split_message = [message]
   else
     split_message = message.split(" ")
-    line_1 = []
-    line_2 = []
-    final_encoded = false
-    line_1_open = true
-    line_2_open = true
-    leftover_words = []
-    final_message_pushed = false
-    split_message.each_with_index do |word, n|
-      line_1_open = false if (line_1.join(" ") + word).length >= 16 && line_1_open
-      line_2_open = false if (line_2.join(" ") + word).length >= 16 && line_2_open
-      if (line_1.join(" ") + word).length < 16 && line_1_open 
-        line_1.push word
-      elsif (line_2.join(" ") + word).length < 16 && line_2_open 
-        line_2.push word
+  end
+  further_split = []
+  split_message.each do |word|
+    if word.length > 16
+      n = 0
+      ((word.length/16)+1).times do
+        further_split.push word[(n*16)..(((n+1)*16)-1)]
+        n+=1
       end
-      if !line_1_open && !line_2_open && !final_message_pushed
-        final_message.push [line_1.join(" "), line_2.join(" ")]
-        final_message_pushed = true
-      elsif !line_1_open && split_message.length == (n + 1) && !final_message_pushed
-        final_message.push [line_1.join(" "), ""]
-        final_message_pushed = true
-      end
-      if final_message_pushed
-        leftover_words.push word
-      end
-    end
-    if leftover_words.empty?
-      final_message
     else
-      encode_frames(leftover_words.join(" "), final_message)
+      further_split.push word
+    end
+  end
+  further_split
+end
+
+def encode_frames(message, final_message=[])
+  if message == nil
+    final_message.push ["Message was empty.", " "]
+  else
+    if message.length <= 16
+      final_message.push [message, " "]
+    else
+      line_1 = []
+      line_2 = []
+      final_encoded = false
+      line_1_open = true
+      line_2_open = true
+      leftover_words = []
+      final_message_pushed = false
+      split_words = split_words_sixteen(message)
+      split_words.each_with_index do |word, n|
+        line_1_open = false if (line_1.join(" ") + word).length > 16 && line_1_open
+        line_2_open = false if (line_2.join(" ") + word).length > 16 && line_2_open
+        if (line_1.join(" ") + word).length <= 16 && line_1_open 
+          line_1.push word
+        elsif (line_2.join(" ") + word).length <= 16 && line_2_open 
+          line_2.push word
+        end
+        if !line_1_open && !line_2_open && !final_message_pushed
+          final_message.push [line_1.join(" "), line_2.join(" ")]
+          final_message_pushed = true
+        elsif !line_1_open && line_1[-1] == word && !final_message_pushed
+          puts n
+          puts split_words.inspect
+          puts split_words.length
+          final_message.push [line_1.join(" "), " "]
+          final_message_pushed = true
+        end
+        if final_message_pushed
+          leftover_words.push word
+        end
+      end
+      if leftover_words.empty?
+        final_message
+      else
+        encode_frames(leftover_words.join(" "), final_message)
+      end
     end
   end
 end

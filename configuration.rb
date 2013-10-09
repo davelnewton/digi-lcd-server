@@ -3,3 +3,5 @@ ForecastIO.configure do |configuration|
 end
 
 RAINY = ["rain", "snow", "sleet", "cloudy", "partly-cloudy-day", "partly-cloudy-night"]
+
+Geocoder.configure(:timeout => 10)

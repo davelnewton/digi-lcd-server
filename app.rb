@@ -13,7 +13,7 @@ class DigiLcdServer < Sinatra::Application
   set :session_secret, 'aneuc945m!#n32'
 
   get '/' do
-    display_message("Welcome.", SPARK)
+    haml :home
   end
 
 end
