@@ -2,3 +2,25 @@
 
 Welcome to DigiLcdServer, where anything is possible!
 
+%h3 Display A Message
+
+%form{action: "/message", method: "post"}
+  %input{type: "text", name: "message"}
+  %input{type: "submit"}
+
+%h3 Get Stock Quotes
+Enter a comma-separated list of symbols.
+(Example: TSLA, LNKD)
+%form{action: "/apps/stocks", method: "post"}
+  %input{type: "text", name: "stocks"}
+  %input{type: "submit"}
+
+%h3 Get The Weather
+Enter your address
+%form{action: "/apps/weather", method: "post"}
+  %input{type: "text", name: "address"}
+  %input{type: "submit"}
+or zip code.
+%form{action: "/apps/weather", method: "post"}
+  %input{type: "text", name: "zip"}
+  %input{type: "submit"}

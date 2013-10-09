@@ -12,15 +12,21 @@ Start the app by going into this directory and typing
 
 ``rackup``
 
+Then go to ``localhost:9292`` to see your options!
+
 ## Available Routes, or "Apps"
 
 I'd love to add some more routes/apps to the equation! These are just some basic ones that I thought of.
+
+To try out the functionality without sending requests through a GUI, just hit the home route at ``localhost:9292``
 
 ### Stocks
 
 Uses the [stock_quote](https://github.com/tyrauber/stock_quote) gem.
 
 **Route:**
+
+``POST``
 
 ``/apps/stocks``
 
@@ -40,6 +46,8 @@ Uses the [stock_quote](https://github.com/tyrauber/stock_quote) gem.
 Uses the [forecast-ruby](https://github.com/darkskyapp/forecast-ruby) gem.
 
 **Route:**
+
+``POST``
 
 ``/apps/weather``
 
@@ -62,6 +70,8 @@ Uses the [forecast-ruby](https://github.com/darkskyapp/forecast-ruby) gem.
 Displays any generic message.
 
 **Route:**
+
+``POST``
 
 ``/message``
 

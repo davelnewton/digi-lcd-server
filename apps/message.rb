@@ -1,5 +1,6 @@
 class DigiLcdServer < Sinatra::Application
-  get '/message' do
+  post '/message' do
     display_message(params[:message], SPARK)
+    redirect "/"
   end
 end

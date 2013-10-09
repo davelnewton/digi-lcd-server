@@ -1,5 +1,6 @@
 class DigiLcdServer < Sinatra::Application
-  get '/apps/weather/:zip' do
-    display_message(get_forecast(get_coordinates(params)), SPARK, {loop: params[:loop]})
+  post '/apps/weather' do
+    display_message(get_forecast(params), SPARK, {loop: params[:loop]})
+    redirect "/"
   end
 end

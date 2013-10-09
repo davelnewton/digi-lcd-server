@@ -6,6 +6,7 @@ gem 'digiusb'
 gem 'sinatra'
 gem 'haml'
 gem 'sass'
+gem 'debugger'
 
 # apps
 gem 'forecast_io'

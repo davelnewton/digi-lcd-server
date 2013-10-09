@@ -1,4 +1,5 @@
-def get_forecast(coords)
+def get_forecast(params)
+  coords = get_coordinates(params)
   forecast = ForecastIO.forecast(coords[0], coords[1])
   final_forecast = ""
   icon = forecast["daily"]["data"][0]["icon"]

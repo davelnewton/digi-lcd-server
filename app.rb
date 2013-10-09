@@ -1,8 +1,11 @@
 require 'sinatra'
+require 'haml'
 require 'digiusb'
+
 require 'geocoder'
 require 'forecast_io'
 require 'stock_quote'
+
 require './configuration'
 
 
